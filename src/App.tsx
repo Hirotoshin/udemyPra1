@@ -1,57 +1,55 @@
 import * as React from "react";
-// classComponent
-// class App extends React.Component {
-//   public render() {
-//     return (
-//       <React.Fragment>
-//         hogehoge
-//       </React.Fragment>
-//     );
-//   }
-// }
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { decrementCounter, incrementCounter } from "./actions/actionCreater";
+import { IrootState } from "./reducer/index";
 
 interface IProps {
+  incre: (count: number) => void;
+  decre: (count: number) => void;
+}
+interface IState {
   count: number;
 }
-// 関数Component
-const App = () => {
-  return (
-    <React.Fragment>
-      <Counter />
-    </React.Fragment>
-  );
-};
 
-class Counter extends React.Component<{}, IProps> {
-  constructor(props: {}) {
+class App extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
-    // console.log(this.state);
-    this.state = {
-      count: 0
-    };
+    this._increment = this._increment.bind(this);
   }
 
-  public handlePlusButton = () => {
-    // console.log("hogehoge");
-    this.setState({
-      count: this.state.count + 1
-    });
-  };
+  public _increment(): void {
+    this.props.incre(count);
+  }
+  public _decrement(count: number): void {
+    this.props.incre(count);
+  }
 
-  public hadleMinusButton = () => {
-    this.setState({
-      count: this.state.count - 1
-    });
-  };
   public render() {
+    const clickIncre = () => this._increment;
+    const clickDecre = () => this._decrement;
     return (
       <React.Fragment>
-        counter:{this.state.count}
-        <button onClick={this.handlePlusButton}>+1</button>
-        <button onClick={this.hadleMinusButton}>-1</button>
+        <div>{this.props.count}</div>
+        <button onClick={clickIncre}>+1</button>
+        <button onClick={clickDecre}>-1</button>
       </React.Fragment>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state: IrootState) => ({
+  count: state.count
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    decre: () => dispatch(decrementCounter()),
+    incre: () => dispatch(incrementCounter())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

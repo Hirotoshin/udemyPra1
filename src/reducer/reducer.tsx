@@ -6,10 +6,13 @@ export interface IState {
 }
 
 const initialState = {
-  value: 0
+  count: 0
 };
 
-export default function rootReducer(state: IState, action: Action): IState {
+export default function rootReducer(
+  state: IState = initialState,
+  action: Action
+): IState {
   switch (action.type) {
     case ActionType.INCREMENT:
       return {

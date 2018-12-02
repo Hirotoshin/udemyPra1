@@ -1,4 +1,9 @@
 import { combineReducers } from "redux";
-import count from "./reducer";
+import rootReducer from "./reducer";
 
-export default combineReducers({ count });
+export interface IrootState {
+  count: number;
+}
+export default combineReducers({
+  count: rootReducer
+});
