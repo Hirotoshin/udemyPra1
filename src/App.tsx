@@ -11,39 +11,47 @@ import * as React from "react";
 // }
 
 interface IProps {
-  age: number;
-  name: string;
+  count: number;
 }
 // 関数Component
 const App = () => {
-  const profile = [
-    {
-      age: 10,
-      name: "Taro"
-    },
-    {
-      age: 20,
-      name: "hanako"
-    }
-  ];
   return (
     <React.Fragment>
-      {profile.map((contents, i) => {
-        return <User key={i} name={contents.name} age={contents.age} />;
-      })}
+      <Counter />
     </React.Fragment>
-    // <React.Fragment>
-    //   <User name={"Taro"} age={10} />
-    // </React.Fragment>
   );
 };
 
-const User = (props: IProps) => {
-  return (
-    <React.Fragment>
-      {props.name} & {props.age}
-    </React.Fragment>
-  );
-};
+class Counter extends React.Component<{}, IProps> {
+  constructor(props: {}) {
+    super(props);
+    // console.log(this.state);
+    this.state = {
+      count: 0
+    };
+  }
+
+  public handlePlusButton = () => {
+    // console.log("hogehoge");
+    this.setState({
+      count: this.state.count + 1
+    });
+  };
+
+  public hadleMinusButton = () => {
+    this.setState({
+      count: this.state.count - 1
+    });
+  };
+  public render() {
+    return (
+      <React.Fragment>
+        counter:{this.state.count}
+        <button onClick={this.handlePlusButton}>+1</button>
+        <button onClick={this.hadleMinusButton}>-1</button>
+      </React.Fragment>
+    );
+  }
+}
 
 export default App;
